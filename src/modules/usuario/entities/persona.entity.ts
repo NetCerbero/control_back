@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Cargo } from "./cargo.entity";
 import { User } from "./user.entity";
-import { PersonaHorario } from "src/modules/control/entities/persona-horario.entity";
+import { PersonaHorario } from "../../control/entities/persona-horario.entity";
 
 @Entity("persona")
 export class Persona{
@@ -20,7 +20,7 @@ export class Persona{
     @Column({type:"varchar",length:15})
     perfil:string;
 
-    @Column({type:"decimal",length:15})
+    @Column({type:"decimal",scale:2,precision:8})
     sueldo:number;
 
     @Column({type:"text",name:"video_present",nullable:true})

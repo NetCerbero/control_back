@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Horario } from './horario.entity';
-import { Persona } from "src/modules/usuario/entities/persona.entity";
+import { Persona } from "../../usuario/entities/persona.entity";
 
 @Entity("persona_horario")
 export class PersonaHorario{

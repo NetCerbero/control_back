@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
+import { UsuarioCrearDto } from './dto/usuario.crear.dto';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -9,7 +10,7 @@ export class UsuarioController {
   //URL [GET] => /
   @Get()
   async listar(){
-    return ["hola","choco"]
+    return await this.usuarioService.listarUsuario();
   }
 
   //URL [GET] => /personal
@@ -23,9 +24,9 @@ export class UsuarioController {
   //URL [POST] => /
   @Post()
   async crear(
-    @Body() data
+    @Body() data:UsuarioCrearDto
   ){
-    return// {...data,otro:22}
+    await this.usuarioService.crear(data)
   }
 
   @Get("/personal/:id")
