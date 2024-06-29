@@ -1,6 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put}
+from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { UsuarioCrearDto } from './dto/usuario.crear.dto';
+import { UsuarioActualizarDto } from './dto/usuario.actualizar.dto';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -9,19 +19,10 @@ export class UsuarioController {
   //HOST=IP/Dominio/URL
   //URL [GET] => /
   @Get()
-  async listar(){
-    return await this.usuarioService.listarUsuario();
+  async obtenerUsuarios(){
+    return await this.usuarioService.obtenerUsuarios();
   }
 
-  //URL [GET] => /personal
-  // [Body] =VALIDADOR= BODY VALIDADO | ERROR 
-  // Guard = 
-  @Get("/personal")
-  async listarPersonal(){
-    return "listar personal"
-  }
-
-  //URL [POST] => /
   @Post()
   async crear(
     @Body() data:UsuarioCrearDto
@@ -29,19 +30,26 @@ export class UsuarioController {
     await this.usuarioService.crear(data)
   }
 
-  @Get("/personal/:id")
-  async recuperarTrabajador(
-    @Param("id") id,
-    @Query("yavi") yavi,
-    @Query("juan") param
-  ){
-    return {rsp:id,yavi,param}
+  @Get(":id")
+  async obtenerUsuario(
+    @Param("id", ParseIntPipe) id:number,
+  )
+  {
+      return await this.usuarioService.obtenerUsuario(id);
   }
 
-  @Delete("/persona/:id")
+  @Put('edit/:id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UsuarioActualizarDto) 
+  {
+    return await this.usuarioService.update(id, data);
+  }
+
+  @Delete("delete/:id")
   async eliminar(
-    @Param("id") id
+    @Param("id", ParseIntPipe) id:number
   ){
-    return "sea ha eliminado " + id
+    return await this.usuarioService.delete(id);
   }
 }
